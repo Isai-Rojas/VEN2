@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cloudflare.com"></script>
   <meta charset="UTF-8">
   <title>Virtual Vending Machine</title>
   <style>
@@ -75,8 +76,18 @@
   <div id="output"></div>
 </div>
 
+<h2>QR Code via JavaScript</h2>
+<div id="qrcode"></div>
 
 <script>
+        // Initialize the QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2Ut97xW_r1RL27V89tDw_MUOQulCzHJ9o1ddxp3Md3JnkPWally4gJUX8RS8KQN0OLmy5yDFM2j4jzn7Ow0Yp4ogxmEAvpsWhgf9X42IzewdQkSs&s=10&ec=121635956",
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff"
+        });
 class VendingMachine {
   constructor() {
     this.prices = { Chips: 1.50, Soda: 2.00, Candy: 1.25 };
