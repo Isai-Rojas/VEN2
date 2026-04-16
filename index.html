@@ -28,7 +28,7 @@
             const encodedMessage = encodeURIComponent(message);
             // Redirects to display.html with the message in the URL
             window.location.href = "display.html?msg=" + encodedMessage;
-            new QRCode(document.getElementById("qrcode"), "display.html?msg=" + encodedMessage);
+            new QRCode(document.getElementById("qrcode"), "https://isai-rojas.github.io/VEN2/display.htm" + encodedMessage);
 
         }
     </script>
