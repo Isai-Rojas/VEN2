@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Send Message</title>
+    <meta charset="UTF-8">
+    <title>Sender Page</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+        input { padding: 10px; width: 300px; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+    </style>
 </head>
 <body>
-    <h1>Type a Message</h1>
-    <input type="text" id="messageInput" placeholder="Enter message here...">
+
+    <h1>Enter a Message</h1>
+    <input type="text" id="userInput" placeholder="Type something here...">
     <button onclick="transferMessage()">Send to Page 2</button>
 
     <script>
         function transferMessage() {
-            // Get the value from the input box
-            const message = document.getElementById('messageInput').value;
-            
-            // Encode the message to ensure it works in a URL (handles spaces/symbols)
+            const message = document.getElementById('userInput').value;
+            // Encodes the message to ensure symbols like spaces or emojis work in a URL
             const encodedMessage = encodeURIComponent(message);
-            
-            // Redirect to the second page with the message in the URL
+            // Redirects to display.html with the message in the URL
             window.location.href = "display.html?msg=" + encodedMessage;
         }
     </script>
+
 </body>
 </html>
