@@ -16,17 +16,15 @@
     <a href="index.html">Go Back</a>
 
     <script>
-        // 1. Get the URL parameters (everything after the ?)
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        
-        // 2. Look for the "msg" parameter
-        const message = urlParams.get('msg');
+        // Get the query string (e.g., ?msg=Hello)
+        const urlParams = new URLSearchParams(window.location.search);
+        const myMsg = urlParams.get('msg');
+    
+        // Display it in an element
+        if (myMsg) {
+            document.getElementById('displayElement').innerText = decodeURIComponent(myMsg);
+            }
 
-        // 3. If it exists, display it on the page
-        if (message) {
-            document.getElementById('output').innerText = message;
-        }
     </script>
 
 </body>
