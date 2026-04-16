@@ -1,146 +1,25 @@
-<!--
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Receipt</title>
+    <title>Display Message</title>
 </head>
 <body>
+    <h1>The Message Received:</h1>
+    <p id="output" style="font-size: 24px; color: blue;">Waiting for message...</p>
 
-<h1>Our Vending Machine</h1>
-<p id="date"></p>
+    <script>
+        // 1. Get the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 2. Look for the specific 'msg' parameter
+        const receivedMessage = urlParams.get('msg');
 
-<ul id="items"></ul>
-
-<p id="totalItems"></p>
-<p id="totalCost"></p>
-
-<script>
-const data = JSON.parse(localStorage.getItem('transaction'));
-const list = document.getElementById('items');
-let totalItems = 0;
-let totalCost = 0;
-
-for (let item in data) {
-  const li = document.createElement('li');
-  const cost = data[item].count * data[item].price;
-  li.textContent = `${item} x${data[item].count} - $${cost.toFixed(2)}`;
-  list.appendChild(li);
-
-  totalItems += data[item].count;
-  totalCost += cost;
-}
-
-document.getElementById('totalItems').textContent = 'Total Items: ' + totalItems;
-document.getElementById('totalCost').textContent = 'Total Cost: $' + totalCost.toFixed(2);
-document.getElementById('date').textContent = new Date().toLocaleString();
-</script>
-
+        // 3. If a message exists, display it
+        if (receivedMessage) {
+            document.getElementById('output').innerText = receivedMessage;
+        } else {
+            document.getElementById('output').innerText = "No message found!";
+        }
+    </script>
 </body>
 </html>
--->
-
-
-<!--
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Receipt</title>
-</head>
-<body>
-
-
-<h1>🧾 Receipt</h1>
-
-
-<div id="receipt"></div>
-
-
-<script>
-const data = JSON.parse(localStorage.getItem("receipt"));
-
-
-let output = "";
-
-
-if (data) {
-  output += `<strong>Items Purchased:</strong><br>`;
-
-
-  if (data.items.length === 0) {
-    output += "No items purchased<br>";
-  } else {
-    data.items.forEach(item => {
-      output += "- " + item + "<br>";
-    });
-  }
-
-
-  output += `<br><strong>Total Items:</strong> ${data.totalItems}<br>`;
-  output += `<strong>Remaining Balance (Change):</strong> $${data.balance}<br>`;
-  output += `<strong>Total Amount Spent: </strong> $${data.spent}<br>`;
-}
-
-
-document.getElementById("receipt").innerHTML = output;
-</script>
-
-
-</body>
-</html>
-
--->
-
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Receipt</title>
-</head>
-<body>
-
-
-<h1>🧾 Receipt</h1>
-
-
-<div id="receipt"></div>
-
-
-<script>
-const data = JSON.parse(localStorage.getItem("receipt"));
-
-
-let output = "";
-
-
-if (data) {
-  output += `<strong>Items Purchased:</strong><br>`;
-
-
-  if (data.items.length === 0) {
-    output += "No items purchased<br>";
-  } else {
-    data.items.forEach(item => {
-      output += "- " + item + "<br>";
-    });
-  }
-
-
-  output += `<br><strong>Total Items:</strong> ${data.totalItems}<br>`;
-  output += `<strong>Remaining Balance (Change):</strong> $${data.balance}<br>`;
-  output += `<strong>Total Amount Spent: </strong> $${data.spent}<br>`;
-}
-
-
-document.getElementById("receipt").innerHTML = output;
-</script>
-
-
-</body>
-</html>
-
-
-
