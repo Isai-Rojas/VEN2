@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My GitHub Pages QR Code</title>
-    <!-- 1. Include the Library -->
+    <meta charset="UTF-8">
+    <title>QR Message Generator</title>
+    <!-- Include the QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        #qrcode { margin-top: 20px; display: flex; justify-content: center; }
+        input { padding: 10px; width: 250px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
-    <h1>Scan this to visit my page!</h1>
-    
-    <!-- 2. Create the Container -->
+    <h1>Generate a Message QR Code</h1>
+    <input type="text" id="messageInput" placeholder="Type message here...">
+    <button onclick="generateQR()">Generate QR Code</button>
+
     <div id="qrcode"></div>
+    <p id="status"></p>
 
-    <script type="text/javascript">
-        // 3. Generate the Code
-        // Replace the URL with your GitHub Pages link
-        new QRCode(document.getElementById("qrcode"), "https://github.io");
+    <script>
+        // Initialize the QR code object once
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 256,
+            height: 256
+        });
+
+        function generateQR() {
+            const message = document.getElementById('messageInput').value;
+            if (!message) {
+                alert("Please enter a message first!");
+                return;
+            }
+
+            // 1. Define your base GitHub URL (CHANGE THIS TO YOUR ACTUAL URL)
+            const baseUrl = "https://github.io";
+
+            // 2. Encode the message and build the full link
+            const fullUrl = baseUrl + "?msg=" + encodeURIComponent(message);
+
+            // 3. Update the QR Code
+            qrcode.clear(); 
+            qrcode.makeCode(fullUrl);
+
+            document.getElementById('status').innerText = "Scan the code to see your message!";
+        }
     </script>
-
 </body>
 </html>
