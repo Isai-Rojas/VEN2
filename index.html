@@ -2,51 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>QR Message Generator</title>
-    <!-- Include the QR Code Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>Sender Page</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; }
-        #qrcode { margin-top: 20px; display: flex; justify-content: center; }
-        input { padding: 10px; width: 250px; }
-        button { padding: 10px 20px; cursor: pointer; }
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+        input { padding: 10px; width: 300px; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <h1>Generate a Message QR Code</h1>
-    <input type="text" id="messageInput" placeholder="Type message here...">
-    <button onclick="generateQR()">Generate QR Code</button>
-
-    <div id="qrcode"></div>
-    <p id="status"></p>
+    <h1>Enter a Message</h1>
+    <input type="text" id="userInput" placeholder="Type something here...">
+    <button onclick="transferMessage()">Send to Page 2</button>
 
     <script>
-        // Initialize the QR code object once
-        const qrcode = new QRCode(document.getElementById("qrcode"), {
-            width: 256,
-            height: 256
-        });
-
-        function generateQR() {
-            const message = document.getElementById('messageInput').value;
-            if (!message) {
-                alert("Please enter a message first!");
-                return;
-            }
-
-            // 1. Define your base GitHub URL (CHANGE THIS TO YOUR ACTUAL URL)
-            const baseUrl = "https://isai-rojas.github.io/VEN2";
-
-            // 2. Encode the message and build the full link
-            const fullUrl = baseUrl + "?msg=" + encodeURIComponent(message);
-
-            // 3. Update the QR Code
-            qrcode.clear(); 
-            qrcode.makeCode(fullUrl);
-
-            document.getElementById('status').innerText = "Scan the code to see your message!";
+        function transferMessage() {
+            const message = document.getElementById('userInput').value;
+            // Encodes the message to ensure symbols like spaces or emojis work in a URL
+            const encodedMessage = encodeURIComponent(message);
+            // Redirects to display.html with the message in the URL
+            window.location.href = "display.html?msg=" + encodedMessage;
         }
     </script>
+
 </body>
 </html>
