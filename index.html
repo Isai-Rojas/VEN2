@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cloudflare.com"></script>
     <meta charset="UTF-8">
     <title>Sender Page</title>
     <style>
@@ -14,6 +15,15 @@
     <h1>Enter a Message</h1>
     <input type="text" id="userInput" placeholder="Type something here...">
     <button onclick="transferMessage()">Send to Page 2</button>
+
+    <div id="qrcode"></div>
+
+    <script type="text/javascript">
+  
+        new QRCode(document.getElementById("qrcode"), ""display.html?msg=" + encodedMessage");
+
+    </script>
+
 
     <script>
         function transferMessage() {
