@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Send Message</title>
+    <title>My GitHub Pages QR Code</title>
+    <!-- 1. Include the Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-    <h1>Type a Message</h1>
-    <input type="text" id="messageInput" placeholder="Enter message here...">
-    <button onclick="transferMessage()">Send to Page 2</button>
 
-    <script>
-        function transferMessage() {
-            // Get the value from the input box
-            const message = document.getElementById('messageInput').value;
-            
-            // Encode the message to ensure it works in a URL (handles spaces/symbols)
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Redirect to the second page with the message in the URL
-            window.location.href = "display.html?msg=" + encodedMessage;
-        }
+    <h1>Scan this to visit my page!</h1>
+    
+    <!-- 2. Create the Container -->
+    <div id="qrcode"></div>
+
+    <script type="text/javascript">
+        // 3. Generate the Code
+        // Replace the URL with your GitHub Pages link
+        new QRCode(document.getElementById("qrcode"), "https://github.io");
     </script>
+
 </body>
 </html>
