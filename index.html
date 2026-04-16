@@ -18,9 +18,12 @@
 
     <div id="qrcode"></div>
 
+    
     <script type="text/javascript">
-  
-        new QRCode(document.getElementById("qrcode"), ""display.html?msg=" + encodedMessage");
+        const message = document.getElementById('userInput').value;
+            // Encodes the message to ensure symbols like spaces or emojis work in a URL
+        const encodedMessage = encodeURIComponent(message);
+        new QRCode(document.getElementById("qrcode"), "display.html?msg=" + encodedMessage);
 
     </script>
 
