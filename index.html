@@ -1,69 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>QR Vending Machine</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<style>
-body { font-family: Arial; text-align: center; }
-
-#machine { width: 300px; cursor: pointer; }
-
-#menu { display: none; }
-
-.item {
-  cursor: pointer;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid black;
-  transition: background-color 0.3s;
-}
-
-.clicked { background-color: lightgreen; }
-
-#balanceBox { margin: 10px; font-size: 18px; font-weight: bold; }
-
-#output { margin-top: 10px; font-weight: bold; }
-
-button { margin: 5px; padding: 8px 12px; cursor: pointer; }
-
-#qrcode { margin-top: 20px; }
-</style>
-</head>
-
-<body>
-
-<h1>QR Vending Machine</h1>
-
-<img id="machine"
-src="https://i.ibb.co/JRm3wK06/Vending-Machine-Image.png">
-
-<div id="menu">
-
-<div id="balanceBox">Balance: $0.00</div>
-
-<button onclick="addMoney(5)">Insert $5</button>
-
-<h2>Select Item</h2>
-
-<div class="item" onclick="buyItem(this, 'chips')">Chips - $1.50</div>
-<div class="item" onclick="buyItem(this, 'soda')">Soda - $2.00</div>
-<div class="item" onclick="buyItem(this, 'candy')">Candy - $1.25</div>
-
-<button onclick="finish()">Done</button>
-
-<div id="output"></div>
-<div id="qrcode"></div>
-
-</div>
-
 <script>
 class VendingMachine {
   constructor() {
     this.prices = { chips: 1.50, soda: 2.00, candy: 1.25 };
     this.balance = 0;
+    this.spent = 0;
     this.purchases = [];
   }
 
@@ -79,6 +19,7 @@ class VendingMachine {
     }
 
     this.balance -= price;
+    this.spent += price;
     this.purchases.push(item);
     return true;
   }
@@ -107,29 +48,38 @@ function buyItem(el, item) {
   if (!success) {
     el.style.backgroundColor = "red";
     setTimeout(() => el.style.backgroundColor = "", 300);
-    document.getElementById("output").innerText = "Not enough money";
     return;
   }
 
   el.classList.add("clicked");
   setTimeout(() => el.classList.remove("clicked"), 200);
 
-  document.getElementById("output").innerText = "Added: " + item;
   updateBalance();
 }
 
 function finish() {
   if (vm.purchases.length === 0) return;
 
-  // Create word string
-  let text = vm.purchases.join(" ");
+  // Count items
+  let counts = {};
+  vm.purchases.forEach(item => {
+    counts[item] = (counts[item] || 0) + 1;
+  });
 
-  // Encode (Base64 for safe URL)
-  let encoded = btoa(text);
+  // Build receipt object
+  const receipt = {
+    counts: counts,
+    totalItems: vm.purchases.length,
+    balance: vm.balance.toFixed(2),
+    spent: vm.spent.toFixed(2)
+  };
 
-  // Build dynamic URL (works locally + GitHub Pages)
+  // Encode receipt
+  let encoded = btoa(JSON.stringify(receipt));
+
+  // Build dynamic URL
   let base = window.location.origin +
-             window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
+    window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
 
   let finalURL = base + "receipt.html?data=" + encoded;
 
@@ -140,10 +90,5 @@ function finish() {
     width: 200,
     height: 200
   });
-
-  document.getElementById("output").innerText = "Scan QR to view receipt";
 }
 </script>
-
-</body>
-</html>
