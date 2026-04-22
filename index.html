@@ -2,43 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sender Page</title>
-    <!-- 1. Load the actual QR Code Library -->
-    <script src="https://cloudflare.com"></script>
-    
-    <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
-        input { padding: 10px; width: 300px; margin-bottom: 10px; }
-        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; margin-bottom: 20px;}
-        #qrcode { margin-top: 20px; }
-    </style>
+    <title>QR Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
-<body>
+<body style="text-align:center; font-family:Arial; margin-top:50px;">
 
-    <h1>Enter a Message</h1>
-    <input type="text" id="userInput" placeholder="Type something here...">
-    <button onclick="transferMessage()">Generate QR & Send</button>
+    <h2>Enter Words</h2>
+    <input type="text" id="userInput" placeholder="Type words only" />
+    <br><br>
+    <button onclick="generateQR()">Generate QR Code</button>
 
+    <h3>QR Code:</h3>
     <div id="qrcode"></div>
 
     <script>
-        function transferMessage() {
-            const message = document.getElementById('userInput').value;
-            const encodedMessage = encodeURIComponent(message);
-            
-            // 2. Construct the full URL correctly
-            const fullURL = "https://github.io" + encodedMessage;
+        function generateQR() {
+            let input = document.getElementById("userInput").value;
 
-            // 3. Clear previous QR code if it exists
+            // Allow only words (letters and spaces)
+            let cleanInput = input.replace(/[^a-zA-Z ]/g, "");
+
+            // Encode into URL
+            let url = "display.html?text=" + encodeURIComponent(cleanInput);
+
+            // Clear previous QR
             document.getElementById("qrcode").innerHTML = "";
 
-            // 4. Generate the QR Code
-            new QRCode(document.getElementById("qrcode"), fullURL);
-
-            // 5. OPTIONAL: Redirect after a short delay (e.g., 3 seconds) 
-            // so the user has time to see the QR code.
-            // If you want to go to the page immediately, uncomment the line below:
-            // window.location.href = fullURL;
+            // Generate QR
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 200,
+                height: 200
+            });
         }
     </script>
 
