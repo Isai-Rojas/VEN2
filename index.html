@@ -23,7 +23,8 @@
             let cleanInput = input.replace(/[^a-zA-Z ]/g, "");
 
             // Encode into URL
-            let url = "display.html?text=" + encodeURIComponent(cleanInput);
+            let baseURL = "https://isai-rojas.github.io/VEN2/display.html";
+            let url = baseURL + "?text=" + encodeURIComponent(cleanInput);
 
             // Clear previous QR
             document.getElementById("qrcode").innerHTML = "";
