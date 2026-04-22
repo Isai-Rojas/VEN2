@@ -2,29 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Receiver Page</title>
+    <title>Display</title>
     <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
-        #output { font-size: 24px; font-weight: bold; color: #28a745; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #textDisplay {
+            font-size: 48px;
+            font-family: "Georgia", serif;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <h1>The Message Received:</h1>
-    <p id="output">No message found.</p>
-    
-    <a href="index.html">Go Back</a>
+    <div id="textDisplay"></div>
 
     <script>
-        // Get the query string (e.g., ?msg=Hello)
-        const urlParams = new URLSearchParams(window.location.search);
-        const myMsg = urlParams.get('msg');
-    
-        // Display it in an element
-        if (myMsg) {
-            document.getElementById('displayElement').innerText = decodeURIComponent(myMsg);
-            }
+        // Extract text from URL
+        const params = new URLSearchParams(window.location.search);
+        let text = params.get("text") || "";
 
+        // Extra safety: allow only words
+        text = text.replace(/[^a-zA-Z ]/g, "");
+
+        // Display styled text
+        document.getElementById("textDisplay").innerText = text;
     </script>
 
 </body>
