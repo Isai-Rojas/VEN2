@@ -1,48 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Receipt Display</title>
-
-<style>
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  background: #f4f4f4;
-}
-
-#text {
-  font-size: 48px;
-  font-family: Georgia, serif;
-  font-weight: bold;
-  text-align: center;
-}
-</style>
+  <title>Receipt</title>
 </head>
+<body style="font-family: Arial; text-align: center;">
 
-<body>
+<h1>🧾 Receipt</h1>
 
-<div id="text"></div>
+<div id="receipt"></div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
-let encoded = params.get("data") || "";
+let encoded = params.get("data");
 
-// Decode Base64
-let decoded = "";
-try {
-  decoded = atob(encoded);
-} catch {
-  decoded = "Invalid QR Code";
+let output = "";
+
+if (encoded) {
+  try {
+    const data = JSON.parse(atob(encoded));
+
+    output += `<strong>Items Purchased:</strong><br><br>`;
+
+    if (!data.counts || Object.keys(data.counts).length === 0) {
+      output += "No items purchased<br>";
+    } else {
+      for (let item in data.counts) {
+        output += `${item}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x${data.counts[item]}<br>`;
+      }
+    }
+
+    output += `<br><strong>Total Items:</strong> ${data.totalItems}<br>`;
+    output += `<strong>Remaining Balance (Change):</strong> $${data.balance}<br>`;
+    output += `<strong>Total Amount Spent:</strong> $${data.spent}<br>`;
+
+  } catch {
+    output = "Invalid QR Code";
+  }
 }
 
-// Safety: only allow words
-decoded = decoded.replace(/[^a-zA-Z ]/g, "");
-
-document.getElementById("text").innerText = decoded;
+document.getElementById("receipt").innerHTML = output;
 </script>
 
 </body>
