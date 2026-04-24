@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QR Vending Machine</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
+/*
 body { font-family: Arial; text-align: center; }
 
 #machine { width: 300px; cursor: pointer; }
@@ -30,6 +32,63 @@ body { font-family: Arial; text-align: center; }
 button { margin: 5px; padding: 8px 12px; cursor: pointer; }
 
 #qrcode { margin-top: 20px; }
+
+*/
+
+
+
+
+
+  
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial;
+  text-align: center;
+}
+
+/* Make everything scale nicely */
+#machine {
+  width: 80vw;        /* scales with screen */
+  max-width: 400px;
+}
+
+#menu {
+  width: 100%;
+}
+
+.item {
+  width: 80%;
+  max-width: 400px;
+  font-size: 2.5vw;   /* responsive text */
+}
+
+button {
+  font-size: 2.5vw;
+  padding: 1em;
+}
+
+#balanceBox, #output {
+  font-size: 3vw;
+}
+
+#qrcode {
+  margin-top: 20px;
+  transform: scale(1.2);
+}
+
+  
+
+
 </style>
 </head>
 
