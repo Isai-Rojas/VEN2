@@ -1,3 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QR Vending Machine</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body { font-family: Arial; text-align: center; }
+
+#machine { width: 300px; cursor: pointer; }
+
+#menu { display: none; }
+
+.item {
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  transition: background-color 0.3s;
+}
+
+.clicked { background-color: lightgreen; }
+
+#balanceBox { margin: 10px; font-size: 18px; font-weight: bold; }
+
+#output { margin-top: 10px; font-weight: bold; }
+
+button { margin: 5px; padding: 8px 12px; cursor: pointer; }
+
+#qrcode { margin-top: 20px; }
+</style>
+</head>
+
+<body>
+
+<h1>QR Vending Machine</h1>
+
+<img id="machine"
+src="https://i.ibb.co/JRm3wK06/Vending-Machine-Image.png">
+
+<div id="menu">
+
+<div id="balanceBox">Balance: $0.00</div>
+
+<button onclick="addMoney(5)">Insert $5</button>
+
+<h2>Select Item</h2>
+
+<div class="item" onclick="buyItem(this, 'chips')">Chips - $1.50</div>
+<div class="item" onclick="buyItem(this, 'soda')">Soda - $2.00</div>
+<div class="item" onclick="buyItem(this, 'candy')">Candy - $1.25</div>
+
+<button onclick="finish()">Done</button>
+
+<div id="output"></div>
+<div id="qrcode"></div>
+
+</div>
 <script>
 class VendingMachine {
   constructor() {
@@ -92,3 +152,6 @@ function finish() {
   });
 }
 </script>
+
+</body>
+</html>
