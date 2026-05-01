@@ -13,7 +13,6 @@ html, body {
   margin: 0;
 }
 
-/* Default screen */
 body {
   display: flex;
   flex-direction: column;
@@ -24,44 +23,64 @@ body {
   transition: background 0.5s;
 }
 
-/* Blue mode */
+/* Blue background mode */
 .active-mode {
   background-color: #9ED7E6;
 }
 
-/* Layout sections */
-#home {
+/* Screens */
+#home, #menu, #qrScreen {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 #menu, #qrScreen {
   display: none;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
-/* Machine image */
+/* Zoom animation */
+.zoom-in {
+  animation: zoomIn 0.5s ease forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Machine */
 #machine {
   width: 80vw;
   max-width: 400px;
   cursor: pointer;
 }
 
-/* Items */
+/* Items (NOW WHITE BOXES) */
 .item {
   width: 80%;
   max-width: 400px;
   margin: 10px auto;
   padding: 15px;
   border: 1px solid black;
+  background-color: white;
+  border-radius: 10px;
   cursor: pointer;
   font-size: clamp(16px, 3vw, 28px);
-  transition: background-color 0.3s;
+  transition: transform 0.15s, background-color 0.3s;
+}
+
+.item:hover {
+  transform: scale(1.05);
 }
 
 .clicked {
@@ -83,24 +102,24 @@ button {
   cursor: pointer;
 }
 
-/* QR */
+/* QR container */
 #qrcode {
   margin-top: 20px;
+  transform: scale(2); /* 👈 doubled size */
 }
 </style>
 </head>
 
 <body>
 
-<!-- HOME SCREEN -->
+<!-- HOME -->
 <div id="home">
   <h1>QR Vending Machine</h1>
   <img id="machine" src="https://i.ibb.co/JRm3wK06/Vending-Machine-Image.png">
 </div>
 
-<!-- MENU SCREEN -->
+<!-- MENU -->
 <div id="menu">
-
   <div id="balanceBox">Balance: $0.00</div>
 
   <button onclick="addMoney(5)">Insert $5</button>
@@ -114,7 +133,6 @@ button {
   <button onclick="finish()">Done</button>
 
   <div id="output"></div>
-
 </div>
 
 <!-- QR SCREEN -->
@@ -154,12 +172,15 @@ function updateBalance() {
     `Balance: $${vm.balance.toFixed(2)}`;
 }
 
-/* OPEN MACHINE → switch to blue menu */
+/* OPEN MACHINE WITH ZOOM */
 document.getElementById("machine").onclick = () => {
   document.body.classList.add("active-mode");
 
   document.getElementById("home").style.display = "none";
-  document.getElementById("menu").style.display = "flex";
+
+  let menu = document.getElementById("menu");
+  menu.style.display = "flex";
+  menu.classList.add("zoom-in");
 
   updateBalance();
 };
@@ -174,7 +195,7 @@ function buyItem(el, item) {
 
   if (!success) {
     el.style.backgroundColor = "red";
-    setTimeout(() => el.style.backgroundColor = "", 300);
+    setTimeout(() => el.style.backgroundColor = "white", 300);
     document.getElementById("output").innerText = "Not enough money";
     return;
   }
@@ -186,7 +207,7 @@ function buyItem(el, item) {
   updateBalance();
 }
 
-/* FINISH → show only QR */
+/* FINISH → QR ONLY */
 function finish() {
   if (vm.purchases.length === 0) return;
 
@@ -211,14 +232,17 @@ function finish() {
 
   // Switch screens
   document.getElementById("menu").style.display = "none";
-  document.getElementById("qrScreen").style.display = "flex";
+
+  let qrScreen = document.getElementById("qrScreen");
+  qrScreen.style.display = "flex";
+  qrScreen.classList.add("zoom-in");
 
   // Generate QR
   document.getElementById("qrcode").innerHTML = "";
   new QRCode(document.getElementById("qrcode"), {
     text: finalURL,
-    width: 220,
-    height: 220
+    width: 200,
+    height: 200
   });
 }
 </script>
