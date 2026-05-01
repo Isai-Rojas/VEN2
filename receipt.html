@@ -6,25 +6,39 @@
 <title>Receipt</title>
 
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
 body {
+  background: #eee;
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-family: Arial;
-  background: #f4f4f4;
+  padding: 20px;
 }
 
+/* Receipt paper */
 #receipt {
-  width: 90vw;
-  max-width: 600px;
-  font-size: clamp(18px, 3vw, 32px);
+  background: white;
+  width: 300px;
+  padding: 20px;
+  font-family: "Courier New", monospace;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* Centered header */
+.center {
   text-align: center;
 }
+
+/* Divider */
+.line {
+  border-top: 1px dashed black;
+  margin: 10px 0;
+}
+
+/* Row formatting */
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
 </style>
 </head>
 
@@ -36,28 +50,50 @@ body {
 const params = new URLSearchParams(window.location.search);
 let encoded = params.get("data");
 
-let output = "<h1>🧾 Receipt</h1>";
+let output = "";
 
 if (encoded) {
   try {
     const data = JSON.parse(atob(encoded));
 
-    output += `<strong>Items Purchased:</strong><br><br>`;
+    output += `<div class="center">`;
+    output += `<strong>VENDING MACHINE</strong><br>`;
+    output += `</div>`;
 
-    if (!data.counts || Object.keys(data.counts).length === 0) {
-      output += "No items purchased<br>";
-    } else {
-      for (let item in data.counts) {
-        output += `${item}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x${data.counts[item]}<br>`;
-      }
+    output += `<div class="line"></div>`;
+
+    output += `<strong>Items Purchased:</strong><br>`;
+
+    for (let item in data.counts) {
+      output += `<div class="row">
+        <span>${item} x${data.counts[item]}</span>
+        <span>$${(data.counts[item] * 1).toFixed(2)}</span>
+      </div>`;
     }
 
-    output += `<br><strong>Total Items:</strong> ${data.totalItems}<br>`;
-    output += `<strong>Remaining Balance (Change):</strong> $${data.balance}<br>`;
-    output += `<strong>Total Amount Spent:</strong> $${data.spent}<br>`;
+    output += `<div class="line"></div>`;
+
+    output += `<div class="row">
+      <span>Total Items:</span>
+      <span>${data.totalItems}</span>
+    </div>`;
+
+    output += `<div class="row">
+      <span>Total Spent:</span>
+      <span>$${data.spent}</span>
+    </div>`;
+
+    output += `<div class="row">
+      <span>Change:</span>
+      <span>$${data.balance}</span>
+    </div>`;
+
+    output += `<div class="line"></div>`;
+
+    output += `<div class="center">THANK YOU!</div>`;
 
   } catch {
-    output += "Invalid QR Code";
+    output = "Invalid QR Code";
   }
 }
 
