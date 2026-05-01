@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Receipt</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family: Arial; text-align: center;">
-
-<h1>🧾 Receipt</h1>
-
-<div id="receipt"></div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt</title>
 
 <style>
 html, body {
@@ -21,25 +15,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f4f4;
   font-family: Arial;
+  background: #f4f4f4;
 }
 
 #receipt {
   width: 90vw;
   max-width: 600px;
-  font-size: 4vw; /* scales with screen */
+  font-size: clamp(18px, 3vw, 32px);
   text-align: center;
 }
 </style>
+</head>
 
+<body>
 
+<div id="receipt"></div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
 let encoded = params.get("data");
 
-let output = "";
+let output = "<h1>🧾 Receipt</h1>";
 
 if (encoded) {
   try {
@@ -60,7 +57,7 @@ if (encoded) {
     output += `<strong>Total Amount Spent:</strong> $${data.spent}<br>`;
 
   } catch {
-    output = "Invalid QR Code";
+    output += "Invalid QR Code";
   }
 }
 
